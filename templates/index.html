@@ -23,7 +23,7 @@
     </div>
 
     <script>
-        const baseURL = 'https://hello-world.onrender.com'; // Replace with your Render URL
+        const baseURL = 'https://your-deployed-app-url.onrender.com'; // Replace with your Render URL
 
         // Fetch and display the latest message
         async function fetchLatestMessage() {
@@ -62,9 +62,10 @@
 
         // Fetch data on page load and refresh every 5 seconds
         window.onload = () => {
-            fetchMessageHistory();
-            setInterval(fetchLatestMessage, 5000);
+            fetchMessageHistory(); // Load history once when the page loads
+            setInterval(fetchLatestMessage, 5000); // Refresh the latest message every 5 seconds
         };
     </script>
 </body>
 </html>
+
