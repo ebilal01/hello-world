@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Visualization</title>
+</head>
+<body>
+    <h1>Message Visualization</h1>
+
+    <!-- Latest Message -->
+    <div>
+        <h2>Latest Message:</h2>
+        <p id="latest-message">No messages yet.</p>
+    </div>
+
+    <!-- Historical Messages -->
+    <div>
+        <h2>Message History:</h2>
+        <ul id="message-history">
+            <!-- Messages will be dynamically added here -->
+        </ul>
+    </div>
+
+    <script>
+        const baseURL = 'https://hello-world.onrender.com'; // Replace with your Render URL
+
+        // Fetch and display the latest message
+        async function fetchLatestMessage() {
+            try {
+                const response = await fetch(`${baseURL}/live-data`);
+                if (!response.ok) throw new Error('Failed to fetch live data');
+                const data = await response.json();
+
+                if (data.message) {
+                    document.getElementById('latest-message').textContent = `Message: ${data.message}`;
+                }
+            } catch (error) {
+                console.error('Error fetching live data:', error);
+            }
+        }
+
+        // Fetch and display the message history
+        async function fetchMessageHistory() {
+            try {
+                const response = await fetch(`${baseURL}/history`);
+                if (!response.ok) throw new Error('Failed to fetch message history');
+                const history = await response.json();
+
+                const historyList = document.getElementById('message-history');
+                historyList.innerHTML = ''; // Clear previous list
+
+                history.forEach((entry) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Message: ${entry.message}, Timestamp: ${entry.timestamp}`;
+                    historyList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching message history:', error);
+            }
+        }
+
+        // Fetch data on page load and refresh every 5 seconds
+        window.onload = () => {
+            fetchMessageHistory();
+            setInterval(fetchLatestMessage, 5000);
+        };
+    </script>
+</body>
+</html>
