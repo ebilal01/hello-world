@@ -7,8 +7,10 @@ from flask_socketio import SocketIO
 import eventlet
 import csv
 import datetime
+from flask_cors import CORS  # For handling cross-origin requests
 
 app = Flask(__name__)
+CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
 
 # In-memory store for demonstration purposes
 message_history = []
@@ -69,5 +71,6 @@ def load_flight_history():
     return jsonify(message_history)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)  # Make sure to deploy with the correct URL on Render
+
 
