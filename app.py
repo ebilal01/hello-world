@@ -1,11 +1,4 @@
-from flask import Flask, render_template, jsonify, request, Response
-import random
-import time
-import json
-import os
-from flask_socketio import SocketIO
-import eventlet
-import csv
+from flask import Flask, render_template, jsonify, request
 import datetime
 from flask_cors import CORS  # For handling cross-origin requests
 
@@ -14,6 +7,10 @@ CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
 
 # In-memory store for demonstration purposes
 message_history = []
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/rockblock', methods=['POST'])
 def handle_rockblock():
@@ -69,6 +66,10 @@ def load_flight_history():
     Fetch all historical messages.
     """
     return jsonify(message_history)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)  # Make sure to deploy with the correct URL on Render
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)  # Make sure to deploy with the correct URL on Render
