@@ -20,7 +20,7 @@ def handle_rockblock():
 #300434065264590
 #or username != "myUser" or password != "myPass":
     # Validate credentials
-    if imei != "301434061119410"
+    if imei != "301434061119410" :
         return "FAILED,10,Invalid login credentials", 400
 
     # Extract and decode data
