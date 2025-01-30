@@ -2,6 +2,8 @@ from flask import Flask, render_template, jsonify, request
 import datetime
 from flask_cors import CORS  # For handling cross-origin requests
 import json
+import csv
+from flask import Response
 
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
@@ -125,15 +127,15 @@ def download_history():
     if not message_history:
         return "No data available", 404
 
-def generate_csv():
+    def generate_csv():
         fieldnames = message_history[0].keys()
-        csv_output = csv.DictWriter(Response(), fieldnames=fieldnames)
-        yield ','.join(fieldnames) + '\n'
+        yield ','.join(fieldnames) + '\n'  # Header row
         for row in message_history:
-            yield ','.join(str(row[field]) for field in fieldnames) + '\n'
+            yield ','.join(str(row[field]) for field in fieldnames) + '\n'  # Data rows
 
     return Response(generate_csv(), mimetype='text/csv',
                     headers={"Content-Disposition": "attachment; filename=flight_history.csv"})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)  # Make sure to deploy with the correct URL on Render
