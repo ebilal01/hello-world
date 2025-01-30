@@ -138,7 +138,8 @@ def download_history():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # Make sure to deploy with the correct URL on Render
+    port = int(os.environ.get("PORT", 10000))  # Use Render's assigned port
+    app.run(host='0.0.0.0', port=port) # Make sure to deploy with the correct URL on Render
 
 
 
