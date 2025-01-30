@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import datetime
 from flask_cors import CORS  # For handling cross-origin requests
+import json
 
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
@@ -11,6 +12,8 @@ message_history = []
 @app.route('/')
 def index():
     return render_template('index.html')
+
+import json
 
 @app.route('/rockblock', methods=['POST'])
 def handle_rockblock():
@@ -28,7 +31,22 @@ def handle_rockblock():
         return "FAILED,16,No data provided", 400
 
     try:
-        # Detect if data is hex-encoded binary or a plain text message
+        # Try to parse as JSON first
+        try:
+            json_data = json.loads(data)
+            if isinstance(json_data, dict):  # Ensure it's a valid dictionary
+                message_data = {
+                    "received_time": datetime.datetime.utcnow().isoformat() + "Z",
+                    "sent_time": datetime.datetime.utcnow().isoformat() + "Z",
+                    **json_data  # Merge the JSON content directly into the message
+                }
+                message_history.append(message_data)
+                print(f"Decoded JSON Message: {message_data}")
+                return "OK,0"
+        except json.JSONDecodeError:
+            pass  # If it's not JSON, proceed with other types
+
+        # Detect if data is hex-encoded binary
         if all(c in '0123456789abcdefABCDEF' for c in data) and len(data) % 2 == 0:
             byte_data = bytearray.fromhex(data)
             if len(byte_data) == 50:  # Expecting structured binary data
@@ -36,11 +54,11 @@ def handle_rockblock():
                 unpacked_data = list(unpacked_data)
 
                 # Scale values where necessary
-                for x in range(5, 12):  # Pressure and temperatures (multiplied by 10 before sending)
+                for x in range(5, 12):  # Pressure and temperatures
                     unpacked_data[x] /= 10
-                for x in range(12, 15):  # Average velocities (multiplied by 1000 before sending)
+                for x in range(12, 15):  # Average velocities
                     unpacked_data[x] /= 1000
-                for x in range(15, 21):  # Std and peak velocities (multiplied by 100 before sending)
+                for x in range(15, 21):  # Std and peak velocities
                     unpacked_data[x] /= 100
 
                 # Convert Unix Epoch timestamp to UTC format
