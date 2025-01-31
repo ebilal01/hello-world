@@ -4,7 +4,7 @@ from flask_cors import CORS  # For handling cross-origin requests
 import json
 import csv
 from flask import Response
-
+import struct
 
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
