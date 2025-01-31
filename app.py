@@ -58,34 +58,31 @@ def handle_rockblock():
 
         # Store data for live retrieval
         message_data = {
-            message_data = {
-        "received_time": datetime.datetime.utcnow().isoformat() + "Z",
-        "sent_time": sent_time_utc,
-        "unix_epoch": unpacked_data[0],
-        "siv": unpacked_data[1],
-        "latitude": unpacked_data[2],
-        "longitude": unpacked_data[3],
-        "altitude": unpacked_data[4],
-        "pressure_mbar": unpacked_data[5],
-        "temperature_pht_c": unpacked_data[6],
-        "temperature_cj_c": unpacked_data[7],
-        "temperature_tctip_c": unpacked_data[8],
-        "roll_deg": unpacked_data[9],
-        "pitch_deg": unpacked_data[10],
-        "yaw_deg": unpacked_data[11],
-        "vavg_1_mps": unpacked_data[12],
-        "vavg_2_mps": unpacked_data[13],
-        "vavg_3_mps": unpacked_data[14],
-        "vstd_1_mps": unpacked_data[15],
-        "vstd_2_mps": unpacked_data[16],
-        "vstd_3_mps": unpacked_data[17],
-        "vpk_1_mps": unpacked_data[18],
-        "vpk_2_mps": unpacked_data[19],
-        "vpk_3_mps": unpacked_data[20],
-        "message": f"IMEI {imei}: {data}",  # Adding a readable message
-    }
-
-        }
+    "received_time": datetime.datetime.utcnow().isoformat() + "Z",
+    "sent_time": sent_time_utc,
+    "unix_epoch": unpacked_data[0],
+    "siv": unpacked_data[1],
+    "latitude": unpacked_data[2],
+    "longitude": unpacked_data[3],
+    "altitude": unpacked_data[4],
+    "pressure_mbar": unpacked_data[5],
+    "temperature_pht_c": unpacked_data[6],
+    "temperature_cj_c": unpacked_data[7],
+    "temperature_tctip_c": unpacked_data[8],
+    "roll_deg": unpacked_data[9],
+    "pitch_deg": unpacked_data[10],
+    "yaw_deg": unpacked_data[11],
+    "vavg_1_mps": unpacked_data[12],
+    "vavg_2_mps": unpacked_data[13],
+    "vavg_3_mps": unpacked_data[14],
+    "vstd_1_mps": unpacked_data[15],
+    "vstd_2_mps": unpacked_data[16],
+    "vstd_3_mps": unpacked_data[17],
+    "vpk_1_mps": unpacked_data[18],
+    "vpk_2_mps": unpacked_data[19],
+    "vpk_3_mps": unpacked_data[20],
+    "message": f"IMEI {imei}: {data}",  # Adding a readable message
+}
 
         # Append to history
         message_history.append(message_data)
