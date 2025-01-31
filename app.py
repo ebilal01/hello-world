@@ -137,6 +137,10 @@ def download_history():
     return Response(generate_csv(), mimetype='text/csv',
                     headers={"Content-Disposition": "attachment; filename=flight_history.csv"})
 
+@app.route('/message-history', methods=['GET'])
+def message_history_endpoint():
+    return jsonify(message_history) if message_history else jsonify([])
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Use Render's assigned port
